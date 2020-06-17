@@ -32,12 +32,12 @@ public class PessoaController {
     })
 
     @GetMapping(produces = "application/json")
-    public List<Pessoa> GetAll(){
+    public List<Pessoa> GetAll() {
         return pessoaRepository.findAll();
     }
 
     @GetMapping(value = "/{id}",
-            produces = "application/json" )
+            produces = "application/json")
     public ResponseEntity<Pessoa> GetById(@PathVariable Long id) {
         Optional<Pessoa> pessoa = pessoaRepository.findById(id);
         return pessoa.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
@@ -45,25 +45,25 @@ public class PessoaController {
     }
 
     @PostMapping(produces = "application/json")
-    public Pessoa Post(@RequestBody  @Valid Pessoa pessoa) {
+    public Pessoa Post(@RequestBody @Valid Pessoa pessoa) {
         return pessoaRepository.save(pessoa);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Pessoa> Put(@PathVariable @Valid Long id, @RequestBody Pessoa newPessoa) {
-        Optional<Pessoa> oldPessoa =  pessoaRepository.findById(id);
-        if(oldPessoa.isPresent()){
+        Optional<Pessoa> oldPessoa = pessoaRepository.findById(id);
+        if (oldPessoa.isPresent()) {
             Pessoa pessoa = oldPessoa.get();
             pessoa.setNome(newPessoa.getNome());
             pessoaRepository.save(pessoa);
             return new ResponseEntity<Pessoa>(pessoa, HttpStatus.OK);
-        }else
+        } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
     @DeleteMapping(value = "/{id}",
-    consumes = "application/json")
-    public ResponseEntity<Object> delete(@PathVariable Long id){
+            produces = "application/json")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
         pessoaRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

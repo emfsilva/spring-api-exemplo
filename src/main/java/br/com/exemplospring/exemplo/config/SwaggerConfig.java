@@ -1,5 +1,6 @@
 package br.com.exemplospring.exemplo.config;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("br.com.exemplospring.exemplo.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
@@ -43,5 +44,4 @@ public class SwaggerConfig {
                     .build());
         }};
     }
-
 }
