@@ -1,7 +1,7 @@
 package br.com.exemplospring.exemplo.controller;
 
-import br.com.exemplospring.exemplo.entity.Pessoa;
-import br.com.exemplospring.exemplo.repository.PessoaRepository;
+import br.com.exemplospring.exemplo.entity.User;
+import br.com.exemplospring.exemplo.repository.UserRepository;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/pessoa")
-public class PessoaController {
+@RequestMapping(value = "/users")
+@CrossOrigin(origins = "http://localhost:4200")
+public class UserController {
 
-    private final PessoaRepository pessoaRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PessoaController(PessoaRepository pessoaRepository) {
-        this.pessoaRepository = pessoaRepository;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     // Código de mensagens de retorno do swigger
@@ -32,31 +33,31 @@ public class PessoaController {
     })
 
     @GetMapping(produces = "application/json")
-    public List<Pessoa> GetAll() {
-        return pessoaRepository.findAll();
+    public List<User> GetAll() {
+        return userRepository.findAll();
     }
 
     @GetMapping(value = "/{id}",
             produces = "application/json")
-    public ResponseEntity<Pessoa> GetById(@PathVariable Long id) {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-        return pessoa.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+    public ResponseEntity<User> GetById(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(produces = "application/json")
-    public Pessoa Post(@RequestBody @Valid Pessoa pessoa) {
-        return pessoaRepository.save(pessoa);
+    public User Post(@RequestBody @Valid User user) {
+        return userRepository.save(user);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Pessoa> Put(@PathVariable @Valid Long id, @RequestBody Pessoa newPessoa) {
-        Optional<Pessoa> oldPessoa = pessoaRepository.findById(id);
-        if (oldPessoa.isPresent()) {
-            Pessoa pessoa = oldPessoa.get();
-            pessoa.setNome(newPessoa.getNome());
-            pessoaRepository.save(pessoa);
-            return new ResponseEntity<Pessoa>(pessoa, HttpStatus.OK);
+    public ResponseEntity<User> Put(@PathVariable @Valid Long id, @RequestBody User newUser) {
+        Optional<User> oldUser = userRepository.findById(id);
+        if (oldUser.isPresent()) {
+            User user = oldUser.get();
+            user.setName(newUser.getName());
+            userRepository.save(user);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -64,7 +65,7 @@ public class PessoaController {
     @DeleteMapping(value = "/{id}",
             produces = "application/json")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        pessoaRepository.deleteById(id);
+        userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
