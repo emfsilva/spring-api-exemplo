@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "TB_USER")
 public class User {
 
     @ApiModelProperty(value = "Código do Usuario")
