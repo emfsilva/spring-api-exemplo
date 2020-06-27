@@ -19,9 +19,31 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    public boolean exist(Long id){
+        return userRepository.existsById(id);
+    }
+
     @Override
-    public Optional<User> findById(long id) {
-        return userRepository.findById(id);
+    public Optional<User> findById(Long id) {
+            return userRepository.findById(id);
+        }
+
+    @Override
+    public User regress(Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void change(Long id, User user) {
+        User userChange = this.regress(id);
+        userChange.setName(user.getName());
+        userChange.setEmail(user.getEmail());
+        this.save(userChange);
     }
 
     @Override
@@ -30,16 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) throws Exception {
-        try {
-            userRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
 }
