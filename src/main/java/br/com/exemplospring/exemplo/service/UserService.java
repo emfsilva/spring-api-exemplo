@@ -1,10 +1,9 @@
 package br.com.exemplospring.exemplo.service;
 
-import br.com.exemplospring.exemplo.entity.User;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 import java.util.Optional;
+
+import br.com.exemplospring.exemplo.entity.User;
 
 public interface UserService {
 
