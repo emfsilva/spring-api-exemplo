@@ -34,7 +34,8 @@ public class SwaggerConfig {
                 .globalResponseMessage(RequestMethod.GET, responseMessageForGET());
     }
 
-    private ApiInfo apiInfo(){
+    @SuppressWarnings("unused")
+	private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
                 .title("Simple Spring boot REST API")
                 .description("Exemplo de API Spring boot")
@@ -45,17 +46,20 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private List<ResponseMessage> responseMessageForGET(){
+    @SuppressWarnings("serial")
+	private List<ResponseMessage> responseMessageForGET()
+    {
         return new ArrayList<ResponseMessage>() {{
             add(new ResponseMessageBuilder()
-                    .code(500)
-                    .message("Internal Error")
-                    .responseModel(new ModelRef("Error"))
-                    .build());
+                .code(500)
+                .message("500 message")
+                .responseModel(new ModelRef("Error"))
+                .build());
             add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Not Found")
-                    .build());
+                .code(403)
+                .message("Forbidden!")
+                .build());
         }};
     }
+
 }
